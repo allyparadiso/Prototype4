@@ -18,8 +18,6 @@ public class FirstPersonController : MonoBehaviour
     private float _cinemachineTargetPitch;
     private float _verticalVelocity;
 
-    public GameObject center;
-
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
@@ -28,7 +26,6 @@ public class FirstPersonController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        center.SetActive(true);
     }
     private void Update()
     {

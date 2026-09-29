@@ -1,16 +1,29 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public TextMeshPro youWin;
+
+    private void Start()
     {
-        
+        youWin.gameObject.SetActive(false);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("End"))
+        {
+            youWin.gameObject.SetActive(true);
+        }
+        else
+        {
+            youWin.gameObject.SetActive(false);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Die()
     {
-        
+
     }
 }
