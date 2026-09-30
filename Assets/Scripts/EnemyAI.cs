@@ -4,7 +4,7 @@ using System.Collections;
 
 public class EnemyAI : MonoBehaviour
 {
-    public static EnemyAI Instance { get; private set; }
+    
 
     public enum AIState { Patrolling, Chasing, Searching }
 
@@ -32,11 +32,11 @@ public class EnemyAI : MonoBehaviour
     private float searchTimer = 0f;
 
     private NavMeshAgent agent;
+    private GameManager gameManager;
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        gameManager = GetComponent<GameManager>();
 
         agent = GetComponent<NavMeshAgent>();
     }
@@ -171,5 +171,13 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawRay(transform.position + Vector3.up, leftBoundary * viewDistance);
         Gizmos.DrawRay(transform.position + Vector3.up, rightBoundary * viewDistance);
+    }
+
+    public void OnCollision(CharacterController other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            gameManager.ShowDeathScreen();
+        }
     }
 }

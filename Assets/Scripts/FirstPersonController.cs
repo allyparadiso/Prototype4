@@ -18,6 +18,8 @@ public class FirstPersonController : MonoBehaviour
     private float _cinemachineTargetPitch;
     private float _verticalVelocity;
 
+    public bool isDead = false;
+
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
@@ -65,6 +67,28 @@ public class FirstPersonController : MonoBehaviour
             cameraTarget.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0f, 0f);
 
             transform.Rotate(Vector3.up * (_lookInput.x * lookSensitivity));
+        }
+    }
+
+    public void StopPlayerMovement()
+    {
+        if (TryGetComponent<CharacterController>(out CharacterController controller)) controller.enabled = false;
+    }
+    public void Die()
+    {
+        isDead = true;
+
+        StopPlayerMovement();
+
+        if (GameManager.instance != null) GameManager.instance.ShowDeathScreen();
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("End"))
+        {
+            StopPlayerMovement();
+            if (GameManager.instance != null) GameManager.instance.ShowWinScreen();
         }
     }
 }
